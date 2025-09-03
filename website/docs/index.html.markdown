@@ -7,12 +7,16 @@ description: |-
 
 # GitHub Provider
 
+This is a community-maintained fork of the official GitHub Terraform provider. It is based on the [upstream provider](https://github.com/integrations/terraform-provider-github/) but includes additional functionality and faster integration of pending contributions.
+
 The GitHub provider is used to interact with GitHub resources.
 
 The provider allows you to manage your GitHub organization's members and teams easily.
 It needs to be configured with the proper credentials before it can be used.
 
 Use the navigation to the left to read about the available resources.
+
+~> **Note:** When upgrading from `integrations/github` to `tf-providers/terraform-provider-github`, use `terraform state replace-provider`. Otherwise, Terraform will still require the old provider to interact with the state file.
 
 ## Example Usage
 
@@ -22,13 +26,12 @@ Terraform 0.13 and later:
 terraform {
   required_providers {
     github = {
-      source  = "integrations/github"
-      version = "~> 6.0"
+      source  = "tf-providers/terraform-provider-github"
+      version = "~> 1.0"
     }
   }
 }
 
-# Configure the GitHub Provider
 provider "github" {}
 
 # Add a user to the organization
@@ -37,22 +40,11 @@ resource "github_membership" "membership_for_user_x" {
 }
 ```
 
-- You **must** add a `required_providers` block to every module that will create resources with this provider. If you do not explicitly require `integrations/github` in a submodule, your terraform run may [break in hard-to-troubleshoot ways](https://github.com/integrations/terraform-provider-github/issues/876#issuecomment-1303790559).
+- You **must** add a `required_providers` block to every module that will create resources with this provider. If you do not explicitly require `tf-providers/terraform-provider-github` in a submodule, your terraform run may [break in hard-to-troubleshoot ways](https://github.com/integrations/terraform-provider-github/issues/876#issuecomment-1303790559).
 
 Terraform 0.12 and earlier:
 
-```terraform
-# Configure the GitHub Provider
-provider "github" {
-  version = "~> 5.0"
-}
-
-# Add a user to the organization
-resource "github_membership" "membership_for_user_x" {
-  # ...
-}
-```
-~> **Note:** When upgrading from `hashicorp/github` to `integrations/github`, use `terraform state replace-provider`. Otherwise, Terraform will still require the old provider to interact with the state file.
+~> **Note:** This forked version of the GitHub Terraform provider does not support Terraform 0.12 or earlier. If you are using Terraform 0.12 or an older release, please continue using an older version of the [official provider](https://github.com/integrations/terraform-provider-github/).
 
 ## Authentication
 
